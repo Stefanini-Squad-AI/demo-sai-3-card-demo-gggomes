@@ -62,6 +62,10 @@ Comprehensive development guide with:
 - Performance considerations
 - Risk mitigation strategies
 
+### 4. Account Module Overviews (Markdown)
+- `docs/modules/account/account-overview.md`: visión estructurada del módulo con reglas, APIs, datos, Mermaid diagram y métricas para Product Owners y equipos técnicos.
+- `modules/account/account-overview.md`: blueprint ligero que sirve como referencia rápida desde pipelines y flujos de ingeniería, enlazando a la documentación oficial.
+
 ## 🎯 Key Features
 
 ### ✅ 98% Codebase Accuracy

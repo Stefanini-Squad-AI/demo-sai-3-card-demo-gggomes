@@ -475,6 +475,41 @@ public class AccountUpdateService {
             </table>
         </section>
 
+        <section class="section">
+            <h2>🧪 Datos de prueba y mocks</h2>
+            <p>El módulo cuenta con cinco cuentas de referencia en <code>app/mocks/accountHandlers.ts</code>, cada una con combinaciones de balances, estados y banderas de titular primario para validar escenarios comunes:</p>
+            <ul style="line-height: 1.8;">
+                <li><strong>11111111111</strong>: Cuenta Premium activa, saldo positivo, FICO 750 y titular primario (Y).</li>
+                <li><strong>22222222222</strong>: Cuenta Standard inactiva, sin balance, FICO 680 y tarjeta bloqueada.</li>
+                <li><strong>33333333333</strong>: Platinum con saldo negativo (overlimit) y FICO 820.</li>
+                <li><strong>44444444444</strong>: Nuevo cliente (BASIC) con bandera de titular secundario.</li>
+                <li><strong>55555555555</strong>: Cuenta Gold con balance negativo y FICO 720.</li>
+            </ul>
+            <p>MSW intercepta los endpoints <code>/account-view*</code> y <code>/accounts/*</code> para simular la respuesta del backend sin depender de servicios reales y lograr pruebas reproducibles.</p>
+        </section>
+
+        <section class="section">
+            <h2>🧭 Recursos complementarios</h2>
+            <ul style="line-height: 1.8;">
+                <li><strong>Documentación Markdown:</strong> <a href="../../../modules/account/account-overview.md">docs/modules/account/account-overview.md</a></li>
+                <li><strong>Blueprint del módulo:</strong> <a href="../../../../modules/account/account-overview.md">modules/account/account-overview.md</a></li>
+                <li><strong>Hooks y APIs:</strong> <a href="../../../../app/hooks/useAccountView.ts">useAccountView</a>, <a href="../../../../app/hooks/useAccountUpdate.ts">useAccountUpdate</a>, <a href="../../../../app/services/api.ts">apiClient</a></li>
+                <li><strong>Mocks:</strong> <a href="../../../../app/mocks/accountHandlers.ts">accountHandlers.ts</a> con datos de ejemplo y validaciones de input.</li>
+                <li><strong>System Overview:</strong> <a href="../../../system-overview.md">docs/system-overview.md</a> para el contexto global y catálogo de módulos.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🧩 Implementación detallada</h2>
+            <ul style="line-height: 1.8;">
+                <li><strong>AccountViewScreen.tsx:</strong> usa tarjetas, chips, `Stack` y `LoadingSpinner` para presentar datos; valida IDs y permite toggles de sensibilidad.</li>
+                <li><strong>AccountUpdateScreen.tsx:</strong> modo edición con <code>Switch</code>, validaciones inline para ZIP y campos numéricos, y confirmación mediante <code>Dialog</code>.</li>
+                <li><strong>useAccountView:</strong> `useMutation` con GET `/account-view` y `/account-view/initialize`; mantiene estados `data`, `loading`, `error` y resetea con `initializeScreen`.</li>
+                <li><strong>useAccountUpdate:</strong> controla `hasChanges`, `resetForm`, `clearData` y envía PUT a `/accounts/{accountId}` solo cuando hay cambios confirmados.</li>
+                <li><strong>SystemHeader</strong> mantiene `transactionId` fijo (`CAVW`/`CAUP`) y contexto corporativo en ambas pantallas.</li>
+            </ul>
+        </section>
+
         <footer>
             <p><a href="../../index.html">← Volver al Índice de Módulos</a></p>
             <p><a href="../../../system-overview.md">🏠 Volver al System Overview</a></p>
