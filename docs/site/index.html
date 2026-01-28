@@ -101,7 +101,47 @@
             gap: 1.5rem;
             margin-top: 2rem;
         }
-        
+
+        .doc-highlight {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        .doc-highlight h2 {
+            color: #667eea;
+            margin-bottom: 0.75rem;
+        }
+
+        .doc-highlight p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .doc-links {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .doc-links a {
+            padding: 0.65rem 1.1rem;
+            background: #ffffff;
+            border: 1px solid #dfe3ea;
+            border-radius: 999px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .doc-links a:hover {
+            background: #eef2ff;
+            transform: translateY(-2px);
+        }
+
         .module-card {
             background: white;
             padding: 1.5rem;
@@ -448,9 +488,22 @@
             </div>
         </section>
 
+        <section class="doc-highlight">
+            <h2>💡 Documentación del módulo ACCOUNT</h2>
+            <p>Aquí se centraliza todo lo que necesitas para escribir historias de usuario sobre cuentas: vistas, hooks, APIs, reglas de negocio y patrones de validación.</p>
+            <div class="doc-links">
+                <a href="modules/accounts/index.html">📚 Guía HTML interactiva</a>
+                <a href="../modules/account/account-overview.md">📄 Overview Markdown (docs/modules)</a>
+                <a href="../../modules/account/account-overview.md">📘 Blueprint Modular (modules/)</a>
+            </div>
+        </section>
+
         <section class="quick-links">
             <h2>🔗 Enlaces Rápidos</h2>
             <ul>
+                <li><a href="modules/accounts/index.html">📦 Guía HTML ACCOUNT</a></li>
+                <li><a href="../modules/account/account-overview.md">📄 ACCOUNT Markdown Overview</a></li>
+                <li><a href="../../modules/account/account-overview.md">📘 ACCOUNT Blueprint</a></li>
                 <li><a href="../system-overview.md">📄 Documentación Completa (system-overview.md)</a></li>
                 <li><a href="../system-overview.md#-catálogo-de-módulos">📚 Catálogo de Módulos</a></li>
                 <li><a href="../system-overview.md#-apis-documentadas">🔗 APIs Documentadas</a></li>
