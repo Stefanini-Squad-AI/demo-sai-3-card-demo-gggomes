@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Tarjetas de Crédito - Guía de Historias de Usuario</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: #f5f7fa;
+            color: #222;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, #1c92d2 0%, #f2fcfe 100%);
+            color: #052f3f;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 0.5rem; }
+        .header p { font-size: 1.2em; margin: 0.15rem 0; }
+        .section {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            color: #1c92d2;
+            border-bottom: 3px solid #1c92d2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .card h4 { color: #1c92d2; margin-bottom: 10px; }
+        .card ul { padding-left: 18px; }
+        .complexity-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .simple { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .complex { background: #f8d7da; color: #721c24; }
+        pre {
+            background: #0a1b2a;
+            color: #f5f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        footer a { color: #1c92d2; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📦 Módulo de Tarjetas de Crédito (Credit Card)</h1>
+            <p>Guía de desarrollo de historias de usuario para listar, ver y actualizar plásticos.</p>
+            <p><strong>Propósito:</strong> Dar visibilidad operativa a los equipos que administran tarjetas asociadas a cuentas, garantizando cumplimiento y trazabilidad.</p>
+        </header>
+
+        <section class="section">
+            <h2>📋 Resumen del módulo</h2>
+            <p><strong>Contexto de Negocio:</strong> Vinculado al módulo de cuentas, este componente permite a agentes y administradores validar el estado de plásticos, registrar bloqueos y mantener datos embosados.</p>
+            <p><strong>Responsabilidades Principales:</strong></p>
+            <ul>
+                <li>Búsqueda paginada de tarjetas por número de cuenta o número de tarjeta (página de 7 elementos).</li>
+                <li>Selección única de tarjetas y navegación dirigida a vista o edición mediante acciones `S` (ver) y `U` (actualizar).</li>
+                <li>Detalle enriquecido con mensajes de MSW, fechas de expiración y enmascarado por defecto.</li>
+                <li>Actualización segura que mapea estados (`ACTIVE`, `INACTIVE`, `BLOCKED`, `EXPIRED`) a `A`/`I`, valida `embossedName`, fechas y confirma con el usuario.</li>
+                <li>Logs de consola y datos de prueba integrados para facilitar debugging (`testData`, `validate-mocks.sh`).</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Guía de desarrollo de Historias de Usuario</h2>
+
+            <h3>📝 Templates específicos</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Listar tarjetas</h4>
+                    <p><strong>Patrón:</strong> Como representante de servicio, quiero filtrar por cuenta o tarjeta para ver los plásticos asociados y su estado.</p>
+                    <p><strong>Detalle:</strong> Usa `CreditCardListScreen`, los filtros validan 11 dígitos para cuentas y 16 para tarjetas, y los atajos `F7/F8` controlan el paginado.</p>
+                </div>
+                <div class="card">
+                    <h4>Ver detalle</h4>
+                    <p><strong>Patrón:</strong> Como analista, quiero abrir la pantalla de detalle tras seleccionar un registro (Enter) para revisar mensajes de error y datos de expiración.</p>
+                    <p><strong>Detalle:</strong> `CreditCardDetailScreen` auto-busca si recibe `accountNumber` y `cardNumber` en el `state` de navegación y ofrece botones para salir o elegir datos de prueba.</p>
+                </div>
+                <div class="card">
+                    <h4>Actualizar tarjeta</h4>
+                    <p><strong>Patrón:</strong> Como administrador, quiero validar y confirmar cambios en el nombre embosado, estado y expiración antes de persistirlos.</p>
+                    <p><strong>Detalle:</strong> `CreditCardUpdateScreen` maneja los estados `changeAction` (desde `NOT_FETCHED` hasta `CHANGES_OKAYED_AND_DONE`) y sólo activa `handleSaveChanges` cuando `canSave` es true.</p>
+                </div>
+            </div>
+
+            <h3>⚡ Factores de aceleración</h3>
+            <ul>
+                <li><strong>Hooks reutilizables:</strong> `useCreditCardList`, `useCreditCardDetail` y `useCreditCardUpdate` exponen `loading`, `error` y métodos (`handleSearch`, `handleProcessSelection`, `handleFieldChange`) para mantener los componentes presentacionales light.</li>
+                <li><strong>Material UI + SystemHeader:</strong> Cards, table, chips y `LoadingSpinner` ya están definidos, lo que reduce el tiempo de maquetado.</li>
+                <li><strong>Datos de prueba embebidos:</strong> Los arrays `testData` en lista y detalle replican casos `Active`, `Inactive`, `Expired`, `Blocked`, y pueden ser usados por stories manuales.</li>
+                <li><strong>Logs detallados:</strong> Cada hook escribe `console.log` con payloads (e.g. `🔍 handleSearch`, `💾 Update request`), útil para validar flujos sin debugger.</li>
+                <li><strong>Validaciones centralizadas:</strong> Regex y reglas para `accountId`, `cardNumber` y `expiry` viven en los hooks, evitando lógica duplicada en UI.</li>
+            </ul>
+
+            <h3>📊 Guías de complejidad</h3>
+            <div>
+                <span class="complexity-badge simple">Simple (1-2 pts)</span>
+                <span class="complexity-badge medium">Medio (3-5 pts)</span>
+                <span class="complexity-badge complex">Complejo (5-8 pts)</span>
+            </div>
+            <ul>
+                <li><strong>Simple:</strong> Añadir columna `chip` con estado en `CreditCardListScreen`, reutilizando los filtros y `useCreditCardList`.</li>
+                <li><strong>Medio:</strong> Agregar validación adicional en `useCreditCardUpdate` (e.g. expiración no coincide con `expiryYear`) y mostrar error en UI.</li>
+                <li><strong>Complejo:</strong> Introducir integración real en `apiClient` para `PUT /credit-cards/update` con auditoría y rollback en caso de falla.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Fundación técnica</h2>
+
+            <h3>🏗️ Componentes clave</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>CreditCardListScreen.tsx</h4>
+                    <p><strong>Responsabilidad:</strong> renderizar tabla accesible con checkboxes, botones `Visibility`/`Edit`, test data y shortcuts F3/Escape/F7/F8/Enter.</p>
+                </div>
+                <div class="card">
+                    <h4>CreditCardDetailScreen.tsx</h4>
+                    <p><strong>Responsabilidad:</strong> mostrar detalle completo (expiry, issue date, holder, mensajes) y permitir salida a la lista.</p>
+                </div>
+                <div class="card">
+                    <h4>CreditCardUpdateScreen.tsx</h4>
+                    <p><strong>Responsabilidad:</strong> manejar la búsqueda (`searchCard`) y edición con cambio de estado, validaciones y guardado seguro.</p>
+                </div>
+                <div class="card">
+                    <h4>Hooks `useCreditCard*`</h4>
+                    <p><strong>Responsabilidad:</strong> encapsular la lógica API y las validaciones (accountId 11 dígitos, cardNumber 16 dígitos, expiry). Exponiendo `handleProcessSelection`, `handleFieldChange` y `canSave`.</p>
+                </div>
+            </div>
+
+            <h3>🔗 Dependencias</h3>
+            <ul>
+                <li><strong>apiClient + useMutation:</strong> nivel de infraestructura de llamadas (axios + hooks personalizados).</li>
+                <li><strong>SystemHeader + LoadingSpinner:</strong> layout compartido con módulos ACCOUNT/AUTH.</li>
+                <li><strong>MSW handlers:</strong> `app/mocks/creditCard*` para pruebas locales y scripts de validación (`validate-mocks.sh`).</li>
+                <li><strong>Routing:</strong> `/cards/list`, `/cards/view`, `/cards/update` definidos en `app/pages` y referenciados desde `menuData.ts` con los IDs `credit-card-*`.</li>
+            </ul>
+
+            <h3>🌐 Interfaces públicas</h3>
+            <pre><code>
+POST /credit-cards/list       - Filtros y paginación para la tabla
+POST /credit-cards/details    - Detalle completo de un plástico
+POST /credit-cards/search     - Búsqueda para edición (prepopula formulario)
+PUT  /credit-cards/update     - Persiste cambios aprobados
+            </code></pre>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">← Volver al índice general</a></p>
+            <p><em>Última actualización: 2026-01-27 · Documento generado con TEMPLATE_DOC.txt</em></p>
+        </footer>
+    </div>
+</body>
+</html>
