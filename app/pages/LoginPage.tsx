@@ -276,13 +276,13 @@ export default function LoginPage() {
               }}
             >
               {`+========================================+
-|%%%%%%%  NATIONAL RESERVE NOTE  %%%%%%%%|
-|%(1)  THE UNITED STATES OF KICSLAND (1)%|
+|%%%%%%%  NOTA DA RESERVA NACIONAL %%%%%%%%|
+|%(1)  REPUBLICA FEDERAL DE KICSLAND (1)%|
 |%$$              ___       ********  $$%|
 |%$    {x}       (o o)                 $%|
-|%$     ******  (  V  )      O N E     $%|
+|%$     ******  (  V  )       UM REAL   $%|
 |%(1)          ---m-m---             (1)%|
-|%%~~~~~~~~~~~ ONE DOLLAR ~~~~~~~~~~~~~%%|
+|%%~~~~~~~~~~~ UM REAL ~~~~~~~~~~~~~~~%%|
 +========================================+`}
             </Box>
           </Box>
@@ -296,7 +296,7 @@ export default function LoginPage() {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Digite seu ID de usuário e senha e pressione ENTER:
+              Digite seu ID de usuário e senha e pressione a tecla ENTER:
             </Typography>
 
             <Box
@@ -417,7 +417,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Entrando...' : 'ENTER = Entrar'}
+                  {isLoading ? 'Entrando...' : 'Entrar (tecla ENTER)'}
                 </Button>
               </Stack>
             </Box>
@@ -436,7 +436,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Administrador: ADMIN001 / PASSWORD
+                  Administrador: ADMIN001 / SENHA
                 </Typography>
                 <Typography variant="caption" sx={{ 
                   bgcolor: 'success.main', 
@@ -445,7 +445,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Back-Office: USER001 / PASSWORD
+                  Usuário Backoffice: USER001 / SENHA
                 </Typography>
               </Stack>
             </Box>
@@ -460,7 +460,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              ENTER = Entrar • F3 = Sair
+              Tecla ENTER = Entrar • Tecla F3 = Sair
             </Typography>
           </Box>
         </Paper>
