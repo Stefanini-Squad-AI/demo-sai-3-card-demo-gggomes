@@ -97,15 +97,15 @@ export default function LoginPage() {
     const errors: Record<string, string> = {};
     
     if (!formData.userId.trim()) {
-      errors.userId = 'Informe seu ID de usuário.';
+      errors.userId = 'Informe su ID de usuario.';
     } else if (formData.userId.length > 8) {
-      errors.userId = 'O ID deve ter até 8 caracteres.';
+      errors.userId = 'El ID debe tener hasta 8 caracteres.';
     }
 
     if (!formData.password.trim()) {
-      errors.password = 'Informe sua senha.';
+      errors.password = 'Informe su contraseña.';
     } else if (formData.password.length > 8) {
-      errors.password = 'A senha deve ter até 8 caracteres.';
+      errors.password = 'La contraseña debe tener hasta 8 caracteres.';
     }
     
     setFieldErrors(errors);
@@ -162,13 +162,13 @@ export default function LoginPage() {
 
   const getErrorMessage = (error: string) => {
     const errorMappings: Record<string, string> = {
-      'Invalid credentials': 'Credenciais inválidas. Tente novamente.',
-      'User not found': 'Usuário não encontrado. Verifique seu ID.',
-      'Please check your input': 'Revise seu ID de usuário e senha.',
-      'Network error occurred': 'Erro de rede. Verifique sua conexão.',
+      'Invalid credentials': 'Credenciales inválidas. Intente nuevamente.',
+      'User not found': 'Usuario no encontrado. Verifique su ID.',
+      'Please check your input': 'Revise su ID de usuario y contraseña.',
+      'Network error occurred': 'Ocurrió un error de red. Verifique su conexión.',
     };
    
-    return errorMappings[error] || 'Ocorreu um erro ao autenticar. Tente novamente.';
+    return errorMappings[error] || 'Ocurrió un error al autenticar. Intente nuevamente.';
   };
 
   // ✅ CORRECCIÓN: No mostrar el formulario si ya está autenticado
@@ -177,10 +177,10 @@ export default function LoginPage() {
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h5" gutterBottom>
-            Redirecionando...
+            Redireccionando...
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Você já está autenticado. Redirecionando para o painel.
+            Ya estás autenticado. Redireccionando al panel.
           </Typography>
         </Box>
       </Container>
@@ -192,13 +192,13 @@ export default function LoginPage() {
       <Box onKeyDown={handleKeyDown} tabIndex={-1}>
         {/* ✅ MODIFICADO: SystemHeader con botón de documentación */}
         <Box sx={{ position: 'relative' }}>
-          <SystemHeader
-            transactionId="CC00"
-            programName="COSGN00C"
-            title="CardDemo - Aplicação de Demonstração"
-            subtitle="Modernização de Mainframe"
-            showNavigation={false}
-          />
+            <SystemHeader
+              transactionId="CC00"
+              programName="COSGN00C"
+              title="CardDemo - Aplicación de Demostración"
+              subtitle="Modernización de Mainframe"
+              showNavigation={false}
+            />
           
           {/* ✅ NUEVO: Botón de documentación discreto en el header */}
           <Box
@@ -209,7 +209,7 @@ export default function LoginPage() {
               zIndex: 10,
             }}
           >
-            <Tooltip title="Abrir documentação" arrow>
+            <Tooltip title="Abrir documentación" arrow>
               <IconButton
                 onClick={handleOpenDocs}
                 size="small"
@@ -296,7 +296,7 @@ export default function LoginPage() {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Digite seu ID de usuário e senha e pressione a tecla ENTER:
+              Ingrese su ID de usuario y contraseña y presione la tecla ENTER:
             </Typography>
 
             <Box
@@ -306,7 +306,7 @@ export default function LoginPage() {
             >
               <Stack spacing={3}>
                 <TextField
-                  label="ID do usuário"
+                  label="ID del usuario"
                   value={formData.userId}
                   onChange={handleInputChange('userId')}
                   error={!!fieldErrors.userId}
@@ -332,7 +332,7 @@ export default function LoginPage() {
                 />
 
                 <TextField
-                  label="Senha"
+                  label="Contraseña"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
@@ -384,7 +384,7 @@ export default function LoginPage() {
                       severity="error"
                       sx={{ borderRadius: 2 }}
                     >
-                      Corrija os erros acima.
+                      Corrija los errores anteriores.
                     </Alert>
                     )}
                   </>
@@ -426,7 +426,7 @@ export default function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Credenciais de exemplo:
+                Credenciales de ejemplo:
               </Typography>
               <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
                 <Typography variant="caption" sx={{ 
@@ -436,7 +436,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Administrador: ADMIN001 / SENHA
+                  Administrador: ADMIN001 / CONTRASEÑA
                 </Typography>
                 <Typography variant="caption" sx={{ 
                   bgcolor: 'success.main', 
@@ -445,7 +445,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Usuário Backoffice: USER001 / SENHA
+                  Usuario Backoffice: USER001 / CONTRASEÑA
                 </Typography>
               </Stack>
             </Box>
@@ -460,7 +460,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              Tecla ENTER = Entrar • Tecla F3 = Sair
+              Tecla ENTER = Entrar • Tecla F3 = Salir
             </Typography>
           </Box>
         </Paper>
