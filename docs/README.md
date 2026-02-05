@@ -8,8 +8,10 @@ docs/
 └── site/
     ├── index.html                  # 🏠 Main navigable page
     └── modules/
-        └── accounts/
-            └── index.html          # 📦 Accounts module detailed guide
+        ├── accounts/
+        │   └── index.html          # 📦 Accounts module detailed guide
+        └── user/
+            └── index.html          # 👤 User module guide
 ```
 
 ## 🚀 Quick Start
@@ -21,6 +23,9 @@ open docs/site/index.html
 
 # Or navigate directly to accounts module
 open docs/site/modules/accounts/index.html
+
+# Or navigate to the user module guide
+open docs/site/modules/user/index.html
 ```
 
 ### Option 2: Read Markdown
@@ -62,9 +67,18 @@ Comprehensive development guide with:
 - Performance considerations
 - Risk mitigation strategies
 
-### 4. Account Module Overviews (Markdown)
+### 4. User Module Guide (site/modules/user/index.html)
+Focused guide for the USER module covering:
+- User story patterns for listing, adding, editing and deleting users
+- Hooks (`useUserList`, `useUserAdd`, `useUserUpdate`, `useUserDelete`) plus navigation guard logic
+- Public interfaces (adapter + MSW) and acceptance criteria aligned to the mainframe shortcuts
+- Performance budgets, readiness notes, and validation templates
+
+### 5. Module Overviews (Markdown)
 - `docs/modules/account/account-overview.md`: visión estructurada del módulo con reglas, APIs, datos, Mermaid diagram y métricas para Product Owners y equipos técnicos.
 - `modules/account/account-overview.md`: blueprint ligero que sirve como referencia rápida desde pipelines y flujos de ingeniería, enlazando a la documentación oficial.
+- `docs/modules/user/user-overview.md`: guía extendida específica del módulo USER.
+- `modules/user/user-overview.md`: resumen ligero y ejecutable para flujos de ingeniería y pipelines.
 
 ## 🎯 Key Features
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER - User Story Development Guide</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin:0; background:#f7f8fc; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #5b6bf6 0%, #7a46d1 100%); color: white; padding: 40px 30px; border-radius: 12px; }
+        .header h1 { margin:0; font-size:2.5rem; }
+        .header p { margin-top: 10px; opacity:0.9; }
+        .section { background:white; border-radius:10px; padding:30px; margin: 24px 0; box-shadow:0 20px 40px rgba(0,0,0,0.08); }
+        .section h2 { margin-top:0; color:#4a4a9b; border-bottom:3px solid #5b6bf6; padding-bottom:10px; }
+        .section ul { line-height:2; }
+        .us-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:20px; }
+        .us-card { border:1px solid #e1e4f4; border-radius:10px; padding:18px; background:#f9f9ff; }
+        .us-card h3 { margin-top:0; color:#5b6bf6; }
+        .rule-row { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+        .rule { background:#eef2ff; border-radius:8px; padding:12px; font-size:0.95rem; }
+        pre { background:#0d0d24; color:#f2f2ff; padding:16px; border-radius:8px; overflow:auto; }
+        footer { text-align:center; margin-top:30px; font-size:0.9rem; }
+        footer a { color:#5b6bf6; text-decoration:none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>👤 USER</h1>
+            <p>Guía práctica para construir User Stories centradas en administración de usuarios del sistema (back-office y admin).</p>
+        </header>
+
+        <section class="section">
+            <h2>📋 Overview</h2>
+            <p><strong>Propósito:</strong> Gestionar el ciclo completo de usuarios del sistema (lista, alta, edición y baja) manteniendo los atajos del mainframe y protecciones de rol.</p>
+            <p><strong>Contexto de negocio:</strong> Solo administradores pueden crear, editar o eliminar usuarios; el equipo de seguridad debe auditar cada acción y evitar borrar al último admin.</p>
+            <p><strong>Ejecución técnica:</strong> Las pantallas usan Material-UI, la librería <code>useMutation</code> + <code>useApi</code> y el adaptador <code>UserApiAdapter</code> para traducir a los endpoints reales o a los mocks de MSW.</p>
+        </section>
+
+        <section class="section">
+            <h2>🎯 User Story Development Guide</h2>
+            <div class="us-grid">
+                <div class="us-card">
+                    <h3>Visualización y selección</h3>
+                    <p><strong>Template:</strong> Como administrador, quiero buscar usuarios por ID y elegir <code>U</code> o <code>D</code> para preparar la actualización/eliminación.</p>
+                    <p><strong>Detalle:</strong> <code>UserListScreen</code> procesa la primera selección, limpia el <code>&lt;select&gt;</code> y dirige a <code>/admin/users/update</code> o <code>/admin/users/delete</code>.</p>
+                </div>
+                <div class="us-card">
+                    <h3>Alta rápida</h3>
+                    <p><strong>Template:</strong> Como admin, quiero crear un usuario nuevo validando <code>userId</code>, <code>password</code> y <code>userType</code> (solo A/U) en la misma pantalla.</p>
+                    <p><strong>Detalle:</strong> <code>useUserAdd</code> valida longitudes, convierte a mayúsculas y usa <code>apiClient.post('/users')</code> o <code>/users/add</code> según <code>VITE_USE_MOCKS</code>.</p>
+                </div>
+                <div class="us-card">
+                    <h3>Edición segura</h3>
+                    <p><strong>Template:</strong> Como admin, quiero buscar por ID, modificar datos y recibir una alerta si no hay cambios (<code>hasChanges</code>).</p>
+                    <p><strong>Detalle:</strong> <code>UserUpdateScreen</code> muestra mensajes <em>Please modify to update ...</em> y solo habilita <code>F5</code> si los campos cambiaron.</p>
+                </div>
+                <div class="us-card">
+                    <h3>Baja controlada</h3>
+                    <p><strong>Template:</strong> Como administrador, quiero confirmar la eliminación y bloquear la eliminación del último admin.</p>
+                    <p><strong>Detalle:</strong> <code>UserDeleteScreen</code> abre un dialogo de confirmación y el handler MSW rechaza eliminar al último admin.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top:30px;">⚡ Development acceleration factors</h3>
+            <ul>
+                <li><strong><code>useMutation</code> + <code>useApi</code>:</strong> Única capa de carga/errores usada por todos los hooks para mantener logs uniformes.</li>
+                <li><strong><code>UserApiAdapter</code>:</strong> Traduce póliza del frontend a los endpoints reales (<code>/users</code>, <code>/users/{userId}</code>) y agrega <code>message</code>/<code>success</code>.</li>
+                <li><strong>Manejo de mocks:</strong> MSW cubre <code>/users/security</code>, <code>/users/add</code>, <code>/users/security/:userId</code>, <code>/users/validate-action</code>, por lo que los U/S pueden probar off-line.</li>
+                <li><strong>UX consistente:</strong> <code>SystemHeader</code>, <code>LoadingSpinner</code>, chips de estado y atajos <code>F3-F12</code> replican el Mainframe sin repetir código.</li>
+            </ul>
+
+            <h3 style="margin-top:30px;">📊 Complexity guidelines</h3>
+            <div class="rule-row">
+                <div class="rule"><strong>Simple (1-2 pts):</strong> Agregar helper text y validaciones ya existentes (<code>User ID must be 8 characters or less</code>).</div>
+                <div class="rule"><strong>Medium (3-5 pts):</strong> Introducir validaciones adicionales (password formato, auditoría) o mejorar los mensajes de alerta.</div>
+                <div class="rule"><strong>Complex (5-8 pts):</strong> Integra backend real con paginación bidireccional y telemetría de latencia.</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Technical Foundation</h2>
+            <h3>🏗️ Key components</h3>
+            <ul>
+                <li><strong><code>UserListScreen.tsx</code></strong>: tabla paginada, <code>Select</code> para acciones <code>U/D</code>, chips de tipo y atajos Enter/F3/F4/F7/F8.</li>
+                <li><strong><code>UserAddScreen.tsx</code></strong>: formulario responsive con helper text <code>(8 Char)</code> y controles <code>ENTER</code>, <code>F4</code>, <code>F3</code>, <code>F12</code>.</li>
+                <li><strong><code>UserUpdateScreen.tsx</code></strong>: búsqueda por ID, <code>hasChanges</code>, validación de password (exactamente 8) y acciones para guardar.</li>
+                <li><strong><code>UserDeleteScreen.tsx</code></strong>: valores readonly y diálogo confirmando que no se pueda borrar al último admin.</li>
+                <li><strong><code>useUser*</code> hooks</strong>: combinan <code>useMutation</code>/<code>useApi</code>, validaciones, navegación (e.g. <code>useNavigate('/admin/users/list')</code>) y <code>VITE_USE_MOCKS</code>.</li>
+            </ul>
+
+            <h3 style="margin-top:20px;">🔗 Dependencies</h3>
+            <ul>
+                <li><strong>Material-UI (MUI 5)</strong>: Container, Grid, Paper, Table, Select, Chip, Dialog y Alert para consistencia visual.</li>
+                <li><strong>React Router</strong>: Rutas protegidas <code>/admin/users/*</code> y redirección si <code>user.role !== 'admin'</code>.</li>
+                <li><strong>MSW</strong>: <code>userListHandlers</code>, <code>userAddHandlers</code>, <code>userUpdateHandlers</code>, <code>userDeleteHandlers</code>.</li>
+                <li><strong><code>apiClient</code></strong>: base <code>/api</code>, inyecta token y normaliza errores.</li>
+            </ul>
+
+            <h3 style="margin-top:20px;">🌐 Public interfaces</h3>
+            <pre><code>GET  /api/users/list?startUserId=&pageNumber=&direction=       - Lista paginada (backend real)
+POST /api/users/process-selection                                  - Validación de acción desde la lista
+GET  /api/users/{userId}                                            - Obtener datos para edición/baja
+POST /api/users                                                   - Crear usuario
+PUT  /api/users/{userId}                                            - Actualizar usuario
+DELETE /api/users/{userId}                                         - Eliminar usuario
+GET  /api/users/previous-page?firstUserId=&currentPage=           - Navegación backward
+GET  /api/users/next-page?lastUserId=&currentPage=&hasNextPage=   - Navegación forward
+</code></pre>
+        </section>
+
+        <section class="section">
+            <h2>✅ Acceptance criteria & rules</h2>
+            <ul>
+                <li>Autenticación: si falta <code>selectCurrentUser()</code> o el rol no es admin, el router redirige a <code>/menu/main</code>.</li>
+                <li>Validación: <code>userId</code> y <code>password</code> no vacíos, max 8 chars y convertidos a mayúsculas; <code>userType</code> solo <code>A</code>/<code>U</code>.</li>
+                <li>UI: <code>Alert</code> muestra el mensaje devuelto por el backend y se limpia al modificar campos.</li>
+                <li>Performance: lista < 500ms (MSW simula 300ms), CRUD < 1s con <code>LoadingSpinner</code> y botones deshabilitados.</li>
+                <li>Error handling: <code>useMutation</code> identifica <code>success: false</code> y propaga el mensaje; <code>handleUserAction</code> solo acepta <code>U</code>/<code>D</code>.</li>
+            </ul>
+            <p><em>Last update: 2026-02-05</em></p>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">← Volver al índice</a></p>
+        </footer>
+    </div>
+</body>
+</html>
