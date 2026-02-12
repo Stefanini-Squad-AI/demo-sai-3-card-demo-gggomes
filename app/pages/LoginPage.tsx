@@ -23,7 +23,7 @@ import {
   VisibilityOff,
   Login as LoginIcon,
   CreditCard,
-  MenuBook, // ✅ NUEVO: Icono para documentación
+  MenuBook, // ✅ NEW: Icon for documentation
 } from '@mui/icons-material';
 import { SystemHeader } from '~/components/layout/SystemHeader';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
@@ -64,7 +64,7 @@ export default function LoginPage() {
     window.open(docsUrl, '_blank', 'noopener,noreferrer');
   }, []);
 
-  // ✅ CORRECCIÓN: Redireccionar si ya está autenticado
+  // ✅ FIX: Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user && !hasRedirected.current) {
       console.log('🔄 User already authenticated, redirecting...', { role: user.role });
@@ -97,15 +97,15 @@ export default function LoginPage() {
     const errors: Record<string, string> = {};
     
     if (!formData.userId.trim()) {
-      errors.userId = 'Ingrese su ID de usuario.';
+      errors.userId = 'Please enter your User ID.';
     } else if (formData.userId.length > 8) {
-      errors.userId = 'El ID puede tener hasta 8 caracteres.';
+      errors.userId = 'User ID can have up to 8 characters.';
     }
 
     if (!formData.password.trim()) {
-      errors.password = 'Ingrese su contraseña.';
+      errors.password = 'Please enter your password.';
     } else if (formData.password.length > 8) {
-      errors.password = 'La contraseña puede tener hasta 8 caracteres.';
+      errors.password = 'Password can have up to 8 characters.';
     }
     
     setFieldErrors(errors);
@@ -150,7 +150,7 @@ export default function LoginPage() {
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'F3' || event.key === 'Escape') {
       event.preventDefault();
-      if (window.confirm('¿Está seguro de que desea salir del sistema?')) {
+      if (window.confirm('Are you sure you want to exit the system?')) {
         window.close();
       }
     }
@@ -162,25 +162,25 @@ export default function LoginPage() {
 
   const getErrorMessage = (error: string) => {
     const errorMappings: Record<string, string> = {
-      'Invalid credentials': 'Credenciales inválidas. Intenta nuevamente.',
-      'User not found': 'Usuario no encontrado. Verifica tu ID.',
-      'Please check your input': 'Por favor, revisa tu ID y contraseña.',
-      'Network error occurred': 'Ocurrió un error de red. Verifica tu conexión.',
+      'Invalid credentials': 'Invalid credentials. Please try again.',
+      'User not found': 'User not found. Verify your User ID.',
+      'Please check your input': 'Please check your User ID and password.',
+      'Network error occurred': 'A network error occurred. Check your connection.',
     };
-   
-    return errorMappings[error] || 'Ocurrió un error durante la autenticación. Intenta nuevamente.';
+
+    return errorMappings[error] || 'An error occurred during authentication. Please try again.';
   };
 
-  // ✅ CORRECCIÓN: No mostrar el formulario si ya está autenticado
+  // ✅ FIX: Do not render the form if already authenticated
   if (isAuthenticated && user) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h5" gutterBottom>
-            Redirecionando...
+            Redirecting...
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Você já está autenticado. Redirecionando para o painel.
+            You are already authenticated. Redirecting to the dashboard.
           </Typography>
         </Box>
       </Container>
@@ -190,17 +190,17 @@ export default function LoginPage() {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Box onKeyDown={handleKeyDown} tabIndex={-1}>
-        {/* ✅ MODIFICADO: SystemHeader con botón de documentación */}
+        {/* ✅ UPDATED: SystemHeader with documentation button */}
         <Box sx={{ position: 'relative' }}>
             <SystemHeader
               transactionId="CC00"
               programName="COSGN00C"
-              title="CardDemo - Aplicación de demostración"
-              subtitle="Modernización de Mainframe"
-              showNavigation={false}
-            />
+              title="CardDemo - Demo Application"
+              subtitle="Mainframe Modernization"
+            showNavigation={false}
+          />
           
-          {/* ✅ NUEVO: Botón de documentación discreto en el header */}
+          {/* ✅ NEW: Discreet documentation button in the header */}
           <Box
             sx={{
               position: 'absolute',
@@ -209,7 +209,7 @@ export default function LoginPage() {
               zIndex: 10,
             }}
           >
-            <Tooltip title="Abrir documentación" arrow>
+            <Tooltip title="Open documentation" arrow>
               <IconButton
                 onClick={handleOpenDocs}
                 size="small"
@@ -250,13 +250,13 @@ export default function LoginPage() {
             >
               <CreditCard sx={{ fontSize: 48, mb: 2 }} />
               <Typography variant="h4" fontWeight={600} gutterBottom>
-                NOTA DE LA RESERVA NACIONAL
+                NATIONAL RESERVE NOTE
               </Typography>
               <Typography variant="h6" sx={{ opacity: 0.9 }}>
-                REPÚBLICA FEDERAL DE KICSLAND
+                FEDERAL REPUBLIC OF KICSLAND
               </Typography>
             
-            {/* ✅ CORRECCIÓN PRINCIPAL: Billete ASCII con espacios preservados */}
+            {/* ✅ PRIMARY FIX: ASCII note with preserved spacing */}
             <Box
               sx={{
                 mt: 2,
@@ -276,13 +276,13 @@ export default function LoginPage() {
               }}
             >
               {`+========================================+
-|%%%%%%%  NOTA DE LA RESERVA NACIONAL %%%%%%%%|
-|%(1)  REPUBLICA FEDERAL DE KICSLAND (1)%|
+|%%%%%%%  NATIONAL RESERVE NOTE %%%%%%%%%|
+|%(1)  FEDERAL REPUBLIC OF KICSLAND (1)%|
 |%$$              ___       ********  $$%|
 |%$    {x}       (o o)                 $%|
-|%$     ******  (  V  )       UM REAL   $%|
+|%$     ******  (  V  )      ONE REAL  $%|
 |%(1)          ---m-m---             (1)%|
-|%%~~~~~~~~~~~ UM REAL ~~~~~~~~~~~~~~~%%|
+|%%~~~~~~~~~~~ ONE REAL ~~~~~~~~~~~~~~~%%|
 +========================================+`}
             </Box>
           </Box>
@@ -296,7 +296,7 @@ export default function LoginPage() {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Ingrese su ID de usuario y contraseña y presione ENTER para entrar.
+              Enter your User ID and password, then press ENTER to sign in.
             </Typography>
 
             <Box
@@ -306,11 +306,11 @@ export default function LoginPage() {
             >
               <Stack spacing={3}>
                 <TextField
-                  label="Usuario"
+                  label="User ID"
                   value={formData.userId}
                   onChange={handleInputChange('userId')}
                   error={!!fieldErrors.userId}
-                  helperText={fieldErrors.userId || 'Máx. 8 caracteres'}
+                  helperText={fieldErrors.userId || 'Max 8 characters'}
                   disabled={isLoading}
                   autoFocus
                   inputProps={{
@@ -332,12 +332,12 @@ export default function LoginPage() {
                 />
 
                 <TextField
-                  label="Contraseña"
+                  label="Password"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
                   error={!!fieldErrors.password}
-                  helperText={fieldErrors.password || 'Máx. 8 caracteres'}
+                  helperText={fieldErrors.password || 'Max 8 characters'}
                   disabled={isLoading}
                   autoComplete="current-password"
                   inputProps={{
@@ -384,7 +384,7 @@ export default function LoginPage() {
                         severity="error"
                         sx={{ borderRadius: 2 }}
                       >
-                        Corrija los errores arriba.
+                        Please fix the errors above.
                       </Alert>
                     )}
                   </>
@@ -417,7 +417,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Entrando...' : 'Entrar (tecla ENTER)'}
+                  {isLoading ? 'Signing in...' : 'Sign in (press ENTER)'}
                 </Button>
               </Stack>
             </Box>
@@ -426,7 +426,7 @@ export default function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Credenciales de ejemplo:
+                Sample credentials:
               </Typography>
               <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
                 <Typography variant="caption" sx={{ 
@@ -436,7 +436,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Administrador: ADMIN001 / CONTRASEÑA
+                  Administrator: ADMIN001 / PASSWORD
                 </Typography>
                 <Typography variant="caption" sx={{ 
                   bgcolor: 'success.main', 
@@ -445,7 +445,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Usuario back-office: USER001 / CONTRASEÑA
+                  Back-office user: USER001 / PASSWORD
                 </Typography>
               </Stack>
             </Box>
@@ -460,7 +460,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              Tecla ENTER = Entrar • Tecla F3 = Salir
+              Press ENTER = Sign in • Press F3 = Exit
             </Typography>
           </Box>
         </Paper>
