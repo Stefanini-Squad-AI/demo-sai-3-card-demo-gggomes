@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU - User Story Development Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f6fb;
+            color: #1f2a44;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1f2a44 0%, #4e5d9f 60%, #8d6bff 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 40px 34px;
+            box-shadow: 0 15px 40px rgba(31, 42, 68, 0.35);
+            margin-bottom: 32px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.6rem;
+        }
+        .header p {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            opacity: 0.95;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 30px rgba(31, 42, 68, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #1f2a44;
+            border-bottom: 3px solid #4e5d9f;
+            padding-bottom: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #f7f8ff;
+            border-radius: 10px;
+            padding: 18px;
+            border: 1px solid #dfe3f2;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #4e5d9f;
+        }
+        ul {
+            line-height: 1.9;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .badge.simple { background: #dff5e0; color: #1d7a3a; }
+        .badge.medium { background: #fff6d7; color: #a16500; }
+        .badge.complex { background: #ffe3e3; color: #912223; }
+        pre {
+            background: #0e1018;
+            color: #f8f8f2;
+            border-radius: 10px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .rule {
+            background: #eef0ff;
+            border-left: 4px solid #4e5d9f;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 10px 0;
+        }
+        .rule strong { display: block; margin-bottom: 4px; }
+        footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 8px;
+        }
+        footer a { color: #4e5d9f; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📋 MENU - Sistema de Menús</h1>
+            <p>Guía para escribir User Stories del flujo principal de navegación: menús principal y administrativo, selección numérica y atajos F3/Escape.</p>
+            <p><strong>Propósito:</strong> Conectar usuarios autenticados con cada pantalla operativa mediante tarjetas numeradas y accesos rápidos, respetando el rol.</p>
+        </header>
+
+        <section class="section">
+            <h2>🔍 Resumen del módulo</h2>
+            <p><strong>Contexto de negocio:</strong> CardDemo sigue el patrón clásico de menús Mainframe. Los operadores back-office y administradores deben aterrizar en pantallas con opciones numeradas, poder seleccionar con teclado y salir rápidamente sin perder el contexto.</p>
+            <p><strong>Responsabilidades:</strong></p>
+            <ul>
+                <li>Mostrar el menú principal (`Basic menu`) para roles back-office y el administrativo (`Admin menu`) para administradores.</li>
+                <li>Renderizar el header de transacción, operaciones, botones Home/Logout y la fecha/hora en tiempo real.</li>
+                <li>Controlar la lógica de selección (chips numerados, teclado, input manual) y el estado de carga/error del hook <code>useMenu</code>.</li>
+                <li>Proteger las rutas con <code>ProtectedRoute</code> y redirigir si el contexto falla (token expirado, rol incorrecto).</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Guía de User Stories</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Selección guiada</h3>
+                    <p><strong>Template:</strong> Como operador de servicio, quiero pulsar el número de opción para navegar sin tocar el mouse.</p>
+                    <p>El menú acepta hasta 2 dígitos, aplica estilo con <code>Chip</code> y valida contra las opciones disponibles en <code>menuData.ts</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>Acceso seguro</h3>
+                    <p><strong>Template:</strong> Como administrador, quiero que el menú administrativo solo se muestre cuando mi rol sea <code>admin</code>.</p>
+                    <p><code>AdminMenuPage</code> redirige automáticamente a <code>/menu/main</code> si el rol no es <code>admin</code> y el <code>ProtectedRoute</code> valida token/rol.</p>
+                </div>
+                <div class="card">
+                    <h3>Salida rápida</h3>
+                    <p><strong>Template:</strong> Como usuario, quiero cerrar sesión con F3 o Escape sin navegar a otra pantalla.</p>
+                    <p><code>MenuScreen</code> escucha las teclas y dispara <code>handleExit</code>, que ejecuta <code>logoutUser</code> y redirige a <code>/login</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>Home contextual</h3>
+                    <p><strong>Template:</strong> Como usuario, quiero volver al menú correcto (main/admin) desde cualquier pantalla.</p>
+                    <p><code>SystemHeader</code> reutiliza los botones Home/Logout y usa <code>useMenu.handleHome</code> para enviar al usuario al menú correspondiente.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top:28px;">⚡ Factores de aceleración</h3>
+            <ul>
+                <li><strong><code>menuData.ts</code>:</strong> Lista predefinida de opciones (id, label, description, path, adminOnly) que se actualiza sin tocar backend.</li>
+                <li><strong><code>MenuScreen</code> + <code>useMenu</code>:</strong> UI y lógica desacopladas con spinner, alert y validation hook que se pueden reutilizar para otros menús.</li>
+                <li><strong><code>ProtectedRoute</code>:</strong> Garantiza que cualquier módulo que extienda menús herede autenticación y redirección de rol.</li>
+                <li><strong><code>SystemHeader</code> integrado:</strong> Mantiene transacción/program ID, fecha/hora y botones de navegación homogénea.</li>
+                <li><strong>Estilo numerado en chips:</strong> WAI-ARIA friendly y replicable en otros listados numerados.</li>
+            </ul>
+
+            <h3 style="margin-top:28px;">📊 Guías de complejidad</h3>
+            <div>
+                <span class="badge simple">Simple 1-2 pts</span>
+                <span class="badge medium">Medio 3-5 pts</span>
+                <span class="badge complex">Complejo 5-8 pts</span>
+            </div>
+            <ul>
+                <li><strong>Simple:</strong> Añadir un nuevo label/description en <code>menuData.ts</code> y la tarjeta se refleja automáticamente.</li>
+                <li><strong>Medio:</strong> Implementar <code>MenuOption.action</code> para ejecutar workflows sin salir del menú (e.g. abrir modal) y documentar la nueva acción.</li>
+                <li><strong>Complejo:</strong> Reemplazar el mock <code>menuData.ts</code> por un endpoint remoto con actualizaciones en tiempo real y rol dinámico.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Fundación técnica</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>MainMenuPage.tsx</h3>
+                    <p>Carga datos con <code>getMainMenuData</code>, verifica autenticación y pasa el menú al <code>MenuScreen</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>AdminMenuPage.tsx</h3>
+                    <p>Valida rol <code>admin</code>, redirige si es otro rol y utiliza el mismo layout de menú.</p>
+                </div>
+                <div class="card">
+                    <h3>MenuScreen.tsx</h3>
+                    <p>Renderiza chips numerados, lista de opciones, input manual, manejadores de teclado y alertas de error.</p>
+                </div>
+                <div class="card">
+                    <h3>useMenu.ts</h3>
+                    <p>Hook central para <code>handleOptionSelect</code>, <code>handleExit</code>, <code>handleHome</code> y <code>handleLogout</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>menuData.ts</h3>
+                    <p>Define <code>MenuData</code> con opciones principales y administrativas, transitando los IDs del mainframe.</p>
+                </div>
+                <div class="card">
+                    <h3>ProtectedRoute.tsx</h3>
+                    <p>Valida token con <code>validateToken</code>, verifica rol y maneja redirecciones seguras.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top:20px;">🔗 Dependencias</h3>
+            <ul>
+                <li><strong>Redux Toolkit (authSlice):</strong> Define <code>selectCurrentUser</code>, <code>selectIsAuthenticated</code> y <code>logoutUser</code>.</li>
+                <li><strong>React Router:</strong> Navegación entre rutas <code>/menu/main</code>, <code>/menu/admin</code> y rutas de destino de cada opción.</li>
+                <li><strong>MUI:</strong> Container, Paper, ListItem, Chip, Alert, TextField y Button.</li>
+                <li><strong>SystemHeader:</strong> Cabecera común reutilizada por pantallas de menú y módulos.</li>
+            </ul>
+
+            <h3 style="margin-top:20px;">🌐 Interfaces públicas</h3>
+            <pre><code>// No hay APIs HTTP; el módulo lee datos locales
+getMainMenuData() → MenuData (main)
+getAdminMenuData() → MenuData (admin)
+useMenu.handleOptionSelect(option) → simula validación (setTimeout 300ms) y navega
+ProtectedRoute.validateToken → /auth/validate + redux</code></pre>
+        </section>
+
+        <section class="section">
+            <h2>🔐 Reglas de negocio</h2>
+            <div class="rule">
+                <strong>RN-001:</strong> Back-office tiene acceso sólo al menú principal; el admin al administrativo.
+            </div>
+            <div class="rule">
+                <strong>RN-002:</strong> Las opciones se limitan a las declaradas en <code>menuData.ts</code>; no hay creación dinámica en tiempo de ejecución.</div>
+            <div class="rule">
+                <strong>RN-003:</strong> Opciones marcadas como <code>disabled</code> o en carga no navegan y no cambian el spinner.
+            </div>
+            <div class="rule">
+                <strong>RN-004:</strong> F3/Escape cierra sesión o ejecuta <code>onExit</code> personalizado antes de hacer <code>logoutUser</code>.
+            </div>
+            <div class="rule">
+                <strong>RN-005:</strong> El input manual acepta sólo dígitos (regex <code>^\d{0,2}$</code>) y se interpreta como índice +1.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>✅ Criterios de aceptación</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Autenticación</h3>
+                    <p>Dado un usuario sin token o con token vencido, cuando accede a <code>/menu/*</code>, entonces <code>ProtectedRoute</code> lo redirige a <code>/login</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>Selección</h3>
+                    <p>Dado que escribo un número válido y pulso Enter, cuando la opción existe y no está deshabilitada, entonces se navega tras ~300ms y aparece la pantalla destino.</p>
+                </div>
+                <div class="card">
+                    <h3>Rol admin</h3>
+                    <p>Dado un usuario no admin en <code>/menu/admin</code>, cuando carga la página, entonces se redirige automáticamente a <code>/menu/main</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>Teclas</h3>
+                    <p>Dado que presiono F3 o Escape, cuando la página tiene foco, entonces se dispara <code>handleExit</code> y se ejecuta logout.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>⚡ Performance y readiness</h2>
+            <ul>
+                <li>Latencia simulada: ~300ms por opción para reflejar validación remota.</li>
+                <li>Haz de carga: 10 opciones en la pantalla sin paginación mantienen la UI ligera.</li>
+                <li>Dependencia: No requiere backend, solo autenticación y redux.</li>
+                <li>Readiness: Balancear el acceso en <code>ProtectedRoute</code> y <code>useSecureSession</code> para evitar estados stale.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>🚨 Riesgos y mitigaciones</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Hardcode de IDs</h3>
+                    <p>Riesgo: <code>transactionId</code> y <code>programName</code> están fijos en <code>menuData.ts</code>. Mitigación: extraerlos a una tabla config y parchear con variables de entorno.</p>
+                </div>
+                <div class="card">
+                    <h3>Sin trazabilidad</h3>
+                    <p>Riesgo: no se registra qué menú o ruta seleccionó cada usuario. Mitigación: instrumentar <code>handleOptionSelect</code> con telemetría.</p>
+                </div>
+                <div class="card">
+                    <h3>Teclas dependientes</h3>
+                    <p>Riesgo: teclado falla si el contenedor pierde foco. Mitigación: documentarlo y agregar <code>autoFocus</code> o <code>tabIndex</code> cuando se extienda.</p>
+                </div>
+                <div class="card">
+                    <h3>Rol inline</h3>
+                    <p>Riesgo: <code>adminOnly</code> se gestiona sólo en render y no en navegación. Mitigación: validar también en backend si se implementan APIs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🧪 Pruebas y datos</h2>
+            <p>Las pruebas manuales cambian el rol en <code>authSlice</code> o en <code>localStorage</code>, ejecutan F3/Escape y verifican la navegación numérica. No hay mocks necesarios más allá de la autenticación existente.</p>
+            <pre><code>1. Loguearse como usuario back-office y navegar a /menu/main.
+2. Presionar 01 para ir a /accounts/view.
+3. Presionar F3 o Escape y verificar logout.
+4. Loguearse como admin y confirmar redirección automática desde /menu/main a /menu/admin cuando el token indica rol admin.</code></pre>
+        </section>
+
+        <section class="section">
+            <h2>🧭 Referencias</h2>
+            <ul>
+                <li><strong>Documentación Markdown:</strong> <a href="../../../modules/menu/menu-overview.md">docs/modules/menu/menu-overview.md</a></li>
+                <li><strong>Blueprint de sistema:</strong> <a href="../../../system-overview.md#-menu---sistema-de-menús">docs/system-overview.md (sección MENU)</a></li>
+                <li><strong>Código esencial:</strong> <code>app/pages/MainMenuPage.tsx</code>, <code>app/pages/AdminMenuPage.tsx</code>, <code>app/components/menu/MenuScreen.tsx</code>, <code>app/hooks/useMenu.ts</code>, <code>app/components/auth/ProtectedRoute.tsx</code>, <code>app/data/menuData.ts</code>.</li>
+                <li><strong>Hooks de navegación:</strong> <code>useMenu.handleOptionSelect</code>, <code>handleExit</code>, <code>handleHome</code> y <code>handleLogout</code>.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p><a href="../index.html">← Volver al índice de módulos</a></p>
+            <p><em>Última actualización: 2026-02-11 · Precisión estimada: 95%+</em></p>
+        </footer>
+    </div>
+</body>
+</html>
