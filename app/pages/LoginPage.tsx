@@ -97,15 +97,15 @@ export default function LoginPage() {
     const errors: Record<string, string> = {};
     
     if (!formData.userId.trim()) {
-      errors.userId = 'Informe seu ID de usuário.';
+      errors.userId = 'Ingrese su ID de usuario.';
     } else if (formData.userId.length > 8) {
-      errors.userId = 'ID do usuário pode ter no máximo 8 caracteres.';
+      errors.userId = 'El ID de usuario puede tener como máximo 8 caracteres.';
     }
 
     if (!formData.password.trim()) {
-      errors.password = 'Informe sua senha.';
+      errors.password = 'Ingrese su contraseña.';
     } else if (formData.password.length > 8) {
-      errors.password = 'A senha pode ter no máximo 8 caracteres.';
+      errors.password = 'La contraseña puede tener como máximo 8 caracteres.';
     }
     
     setFieldErrors(errors);
@@ -150,7 +150,7 @@ export default function LoginPage() {
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'F3' || event.key === 'Escape') {
       event.preventDefault();
-        if (window.confirm('Tem certeza de que deseja sair do sistema?')) {
+        if (window.confirm('¿Está seguro de que desea salir del sistema?')) {
         window.close();
       }
     }
@@ -162,13 +162,13 @@ export default function LoginPage() {
 
   const getErrorMessage = (error: string) => {
     const errorMappings: Record<string, string> = {
-      'Invalid credentials': 'Credenciais inválidas. Tente novamente.',
-      'User not found': 'Usuário não encontrado. Verifique seu ID de usuário.',
-      'Please check your input': 'Verifique seu ID de usuário e senha.',
-      'Network error occurred': 'Ocorreu um erro de rede. Verifique sua conexão.',
+      'Invalid credentials': 'Credenciales inválidas. Intente nuevamente.',
+      'User not found': 'Usuario no encontrado. Verifique su ID.',
+      'Please check your input': 'Revise su ID de usuario y contraseña.',
+      'Network error occurred': 'Ocurrió un error de red. Verifique su conexión.',
     };
 
-    return errorMappings[error] || 'Ocorreu um erro durante a autenticação. Tente novamente.';
+    return errorMappings[error] || 'Ocurrió un error durante la autenticación. Intente nuevamente.';
   };
 
   // ✅ FIX: Do not render the form if already authenticated
@@ -176,12 +176,12 @@ export default function LoginPage() {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h5" gutterBottom>
-              Redirecionando...
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Você já está autenticado. Redirecionando para o painel.
-            </Typography>
+          <Typography variant="h5" gutterBottom>
+            Redirigiendo...
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Ya estás autenticado. Redirigiendo al panel.
+          </Typography>
           </Box>
       </Container>
     );
@@ -195,8 +195,8 @@ export default function LoginPage() {
             <SystemHeader
               transactionId="CC00"
               programName="COSGN00C"
-              title="CardDemo - Aplicativo de Demonstração"
-              subtitle="Modernização de Mainframe"
+              title="CardDemo - Aplicación de Demostración"
+              subtitle="Modernización de Mainframe"
             showNavigation={false}
           />
           
@@ -250,7 +250,7 @@ export default function LoginPage() {
             >
               <CreditCard sx={{ fontSize: 48, mb: 2 }} />
               <Typography variant="h4" fontWeight={600} gutterBottom>
-                NOTA DO RESERVA NACIONAL
+                NOTA DE LA RESERVA NACIONAL
               </Typography>
               <Typography variant="h6" sx={{ opacity: 0.9 }}>
                 REPÚBLICA FEDERAL DE KICSLAND
@@ -276,13 +276,13 @@ export default function LoginPage() {
               }}
             >
               {`+========================================+
-|%%%%%%%  NOTA DO RESERVA NACIONAL %%%%%%%%%|
+|%%%%%%%  NOTA DE LA RESERVA NACIONAL %%%%%%%%%|
 |%(1)  REPÚBLICA FEDERAL DE KICSLAND (1)%|
 |%$$              ___       ********  $$%|
 |%$    {x}       (o o)                 $%|
-|%$     ******  (  V  )      UM REAL   $%|
+|%$     ******  (  V  )      UN REAL   $%|
 |%(1)          ---m-m---             (1)%|
-|%%~~~~~~~~~~~ UM REAL ~~~~~~~~~~~~~~~%%|
+|%%~~~~~~~~~~~ UN REAL ~~~~~~~~~~~~~~~%%|
 +========================================+`}
             </Box>
           </Box>
@@ -296,7 +296,7 @@ export default function LoginPage() {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Informe seu ID de usuário e senha e pressione ENTER para acessar.
+              Ingrese su ID de usuario y contraseña, luego presione ENTER para continuar.
             </Typography>
 
             <Box
@@ -306,7 +306,7 @@ export default function LoginPage() {
             >
               <Stack spacing={3}>
                 <TextField
-                  label="ID do usuário"
+                label="ID de usuario"
                   value={formData.userId}
                   onChange={handleInputChange('userId')}
                   error={!!fieldErrors.userId}
@@ -332,7 +332,7 @@ export default function LoginPage() {
                 />
 
                 <TextField
-                  label="Senha"
+                  label="Contraseña"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
@@ -384,7 +384,7 @@ export default function LoginPage() {
                       severity="error"
                       sx={{ borderRadius: 2 }}
                     >
-                      Corrija os erros acima.
+                      Corrija los errores anteriores.
                     </Alert>
                     )}
                   </>
@@ -417,7 +417,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Entrando...' : 'Entrar (pressione ENTER)'}
+                  {isLoading ? 'Ingresando...' : 'Entrar (presione ENTER)'}
                 </Button>
               </Stack>
             </Box>
@@ -426,7 +426,7 @@ export default function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Credenciais de exemplo:
+                Credenciales de ejemplo:
               </Typography>
               <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
                 <Typography variant="caption" sx={{ 
@@ -445,7 +445,7 @@ export default function LoginPage() {
                   py: 0.5,
                   borderRadius: 1,
                 }}>
-                  Usuário back-office: USER001 / PASSWORD
+                  Usuario de back-office: USER001 / PASSWORD
                 </Typography>
               </Stack>
             </Box>
@@ -460,7 +460,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              Pressione ENTER = Entrar • Pressione F3 = Sair
+              ENTER = Entrar • F3 = Salir
             </Typography>
           </Box>
         </Paper>
