@@ -97,15 +97,15 @@ export default function LoginPage() {
     const errors: Record<string, string> = {};
     
     if (!formData.userId.trim()) {
-      errors.userId = 'Ingrese su ID de usuario.';
+      errors.userId = 'Please enter your User ID.';
     } else if (formData.userId.length > 8) {
-      errors.userId = 'El ID de usuario puede tener como máximo 8 caracteres.';
+      errors.userId = 'User ID can be at most 8 characters.';
     }
 
     if (!formData.password.trim()) {
-      errors.password = 'Ingrese su contraseña.';
+      errors.password = 'Please enter your password.';
     } else if (formData.password.length > 8) {
-      errors.password = 'La contraseña puede tener como máximo 8 caracteres.';
+      errors.password = 'Password can be at most 8 characters.';
     }
     
     setFieldErrors(errors);
@@ -150,7 +150,7 @@ export default function LoginPage() {
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'F3' || event.key === 'Escape') {
       event.preventDefault();
-      if (window.confirm('¿Está seguro de que desea salir del sistema?')) {
+      if (window.confirm('Are you sure you want to exit the system?')) {
         window.close();
       }
     }
@@ -162,13 +162,13 @@ export default function LoginPage() {
 
   const getErrorMessage = (error: string) => {
     const errorMappings: Record<string, string> = {
-      'Invalid credentials': 'Credenciales inválidas. Inténtelo de nuevo.',
-      'User not found': 'Usuario no encontrado. Verifique su ID de usuario.',
-      'Please check your input': 'Verifique su ID de usuario y contraseña.',
-      'Network error occurred': 'Ocurrió un error de red. Verifique su conexión.',
+      'Invalid credentials': 'Invalid credentials. Please try again.',
+      'User not found': 'User not found. Check your User ID.',
+      'Please check your input': 'Please check your User ID and password.',
+      'Network error occurred': 'A network error occurred. Check your connection.',
     };
 
-    return errorMappings[error] || 'Se produjo un error durante la autenticación. Por favor, inténtelo de nuevo.';
+    return errorMappings[error] || 'An error occurred during authentication. Please try again.';
   };
 
   // ✅ FIX: Do not render the form if already authenticated
@@ -177,10 +177,10 @@ export default function LoginPage() {
       <Container maxWidth="md" sx={{ py: 4 }}>
           <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h5" gutterBottom>
-            Redirigiendo...
+            Redirecting...
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Ya está autenticado. Redirigiendo a su tablero.
+            You are already authenticated. Redirecting to your dashboard.
           </Typography>
           </Box>
       </Container>
@@ -195,8 +195,8 @@ export default function LoginPage() {
             <SystemHeader
               transactionId="CC00"
               programName="COSGN00C"
-              title="CardDemo - Aplicación de demostración"
-              subtitle="Modernización del mainframe"
+              title="CardDemo - Demonstration Application"
+              subtitle="Mainframe Modernization"
             showNavigation={false}
           />
           
@@ -209,7 +209,7 @@ export default function LoginPage() {
               zIndex: 10,
             }}
           >
-              <Tooltip title="Abrir documentación" arrow>
+              <Tooltip title="Open documentation" arrow>
               <IconButton
                 onClick={handleOpenDocs}
                 size="small"
@@ -289,15 +289,15 @@ export default function LoginPage() {
 
           {/* Rest of the component remains unchanged... */}
           <Box sx={{ p: 4 }}>
-            <Typography
-              variant="h6"
-              color="primary.main"
-              textAlign="center"
-              gutterBottom
-              sx={{ mb: 3 }}
-            >
-              Ingrese su ID de usuario y contraseña, luego presione ENTER para continuar.
-            </Typography>
+              <Typography
+                variant="h6"
+                color="primary.main"
+                textAlign="center"
+                gutterBottom
+                sx={{ mb: 3 }}
+              >
+                Enter your User ID and password, then press ENTER to continue.
+              </Typography>
 
             <Box
               component="form"
@@ -306,11 +306,11 @@ export default function LoginPage() {
             >
               <Stack spacing={3}>
                 <TextField
-                label="ID de usuario"
+                label="User ID"
                   value={formData.userId}
                   onChange={handleInputChange('userId')}
                   error={!!fieldErrors.userId}
-                  helperText={fieldErrors.userId || 'MÁX 8 caracteres'}
+                  helperText={fieldErrors.userId || 'MAX 8 characters'}
                   disabled={isLoading}
                   autoFocus
                   inputProps={{
@@ -332,12 +332,12 @@ export default function LoginPage() {
                 />
 
                 <TextField
-                  label="Contraseña"
+                  label="Password"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
                   error={!!fieldErrors.password}
-                  helperText={fieldErrors.password || 'MÁX 8 caracteres'}
+                  helperText={fieldErrors.password || 'MAX 8 characters'}
                   disabled={isLoading}
                   autoComplete="current-password"
                   inputProps={{
@@ -384,7 +384,7 @@ export default function LoginPage() {
                       severity="error"
                       sx={{ borderRadius: 2 }}
                     >
-                      Corrija los errores anteriores.
+                      Please fix the errors above.
                     </Alert>
                     )}
                   </>
@@ -417,7 +417,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión (ENTER)'}
+                  {isLoading ? 'Signing in...' : 'Sign in (ENTER)'}
                 </Button>
               </Stack>
             </Box>
@@ -426,27 +426,27 @@ export default function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Credenciales de ejemplo:
+                Example credentials:
               </Typography>
               <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
-                <Typography variant="caption" sx={{ 
-                  bgcolor: 'warning.main', 
-                  color: 'warning.contrastText',
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                }}>
-                  Administrador: ADMIN001 / CONTRASEÑA
-                </Typography>
-                <Typography variant="caption" sx={{ 
-                  bgcolor: 'success.main', 
-                  color: 'success.contrastText',
-                  px: 1,
-                  py: 0.5,
-                  borderRadius: 1,
-                }}>
-                  Usuario de back-office: USER001 / CONTRASEÑA
-                </Typography>
+                  <Typography variant="caption" sx={{ 
+                    bgcolor: 'warning.main', 
+                    color: 'warning.contrastText',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 1,
+                  }}>
+                    Administrator: ADMIN001 / PASSWORD
+                  </Typography>
+                  <Typography variant="caption" sx={{ 
+                    bgcolor: 'success.main', 
+                    color: 'success.contrastText',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 1,
+                  }}>
+                    Back-office user: USER001 / PASSWORD
+                  </Typography>
               </Stack>
             </Box>
           </Box>
@@ -460,7 +460,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              ENTER = Iniciar sesión • F3 = Salir
+              ENTER = Sign in • F3 = Exit
             </Typography>
           </Box>
         </Paper>
