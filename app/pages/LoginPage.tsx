@@ -97,15 +97,15 @@ export default function LoginPage() {
     const errors: Record<string, string> = {};
 
     if (!formData.userId.trim()) {
-      errors.userId = 'Ingrese su ID de usuario.';
+      errors.userId = 'Digite seu ID de usuário.';
     } else if (formData.userId.length > 8) {
-      errors.userId = 'El ID de usuario puede tener como máximo 8 caracteres.';
+      errors.userId = 'O ID de usuário pode ter no máximo 8 caracteres.';
     }
 
     if (!formData.password.trim()) {
-      errors.password = 'Ingrese su contraseña.';
+      errors.password = 'Digite sua senha.';
     } else if (formData.password.length > 8) {
-      errors.password = 'La contraseña puede tener como máximo 8 caracteres.';
+      errors.password = 'A senha pode ter no máximo 8 caracteres.';
     }
 
     setFieldErrors(errors);
@@ -150,7 +150,7 @@ export default function LoginPage() {
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'F3' || event.key === 'Escape') {
       event.preventDefault();
-      if (window.confirm('¿Está seguro de que desea salir del sistema?')) {
+      if (window.confirm('Tem certeza de que deseja sair do sistema?')) {
         window.close();
       }
     }
@@ -162,15 +162,15 @@ export default function LoginPage() {
 
   const getErrorMessage = (error: string) => {
     const errorMappings: Record<string, string> = {
-      'Invalid credentials': 'Credenciales inválidas. Intente nuevamente.',
-      'User not found': 'Usuario no encontrado. Verifique su ID.',
-      'Please check your input': 'Revise su usuario y contraseña.',
-      'Network error occurred': 'Ocurrió un error de red. Revise su conexión.',
+      'Invalid credentials': 'Credenciais inválidas. Tente novamente.',
+      'User not found': 'Usuário não encontrado. Verifique seu ID.',
+      'Please check your input': 'Revise seu usuário e senha.',
+      'Network error occurred': 'Ocorreu um erro de rede. Verifique sua conexão.',
     };
 
     return (
       errorMappings[error] ||
-      'Ocurrió un error durante la autenticación. Inténtelo de nuevo.'
+      'Ocorreu um erro durante a autenticação. Tente novamente.'
     );
   };
 
@@ -180,10 +180,10 @@ export default function LoginPage() {
         <Container maxWidth="md" sx={{ py: 4 }}>
             <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h5" gutterBottom>
-            Redirigiendo...
+            Redirecionando...
             </Typography>
             <Typography variant="body1" color="text.secondary">
-            Ya está autenticado. Redirigiendo al panel.
+            Você já está autenticado. Redirecionando para o painel.
             </Typography>
             </Box>
       </Container>
@@ -198,8 +198,8 @@ export default function LoginPage() {
             <SystemHeader
               transactionId="CC00"
               programName="COSGN00C"
-              title="CardDemo - Aplicación de demostración"
-              subtitle="Modernización del Mainframe"
+              title="CardDemo - Aplicação de demonstração"
+              subtitle="Modernização do Mainframe"
               showNavigation={false}
             />
           
@@ -212,7 +212,7 @@ export default function LoginPage() {
               zIndex: 10,
             }}
           >
-              <Tooltip title="Abrir documentación" arrow>
+              <Tooltip title="Abrir documentação" arrow>
               <IconButton
                 onClick={handleOpenDocs}
                 size="small"
@@ -279,13 +279,13 @@ export default function LoginPage() {
               }}
             >
 {`+========================================+
-|%%%%%%%  NATIONAL RESERVE NOTE %%%%%%%|
-|%(1)  REPUBLIC OF KICSLAND (1)%|
+|%%%%%%%  NOTA DE RESERVA NACIONAL %%%%%%%|
+|%(1)  REPÚBLICA DE KICSLAND (1)%|
 |%$$              ___       ********  $$%|
 |%$    {x}       (o o)                 $%|
-|%$     ******  (  V  )      ONE REAL    $%|
+|%$     ******  (  V  )      UM REAL     $%|
 |%(1)          ---m-m---             (1)%|
-|%%~~~~~~~~~~~ ONE REAL ~~~~~~~~~~~~~~~%%|
+|%%~~~~~~~~~~~ UM REAL ~~~~~~~~~~~~~~~%%|
 +========================================+`}
             </Box>
           </Box>
@@ -299,7 +299,7 @@ export default function LoginPage() {
                   gutterBottom
                   sx={{ mb: 3 }}
                 >
-                  Ingrese sus credenciales y presione ENTER para continuar.
+                  Digite suas credenciais e pressione ENTER para continuar.
                 </Typography>
 
             <Box
@@ -308,8 +308,8 @@ export default function LoginPage() {
               sx={{ maxWidth: 400, mx: 'auto' }}
             >
               <Stack spacing={3}>
-                <TextField
-                  label="Usuario"
+                  <TextField
+                  label="Usuário"
                   value={formData.userId}
                   onChange={handleInputChange('userId')}
                   error={!!fieldErrors.userId}
@@ -334,8 +334,8 @@ export default function LoginPage() {
                   }}
                 />
 
-                <TextField
-                  label="Contraseña"
+                  <TextField
+                  label="Senha"
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
@@ -374,7 +374,7 @@ export default function LoginPage() {
 
                 {(authError || Object.keys(fieldErrors).length > 0) && (
                   <>
-                    {authError ? (
+                      {authError ? (
                       <Alert
                         severity="error"
                         onClose={handleAlertClose}
@@ -387,7 +387,7 @@ export default function LoginPage() {
                         severity="error"
                         sx={{ borderRadius: 2 }}
                       >
-                        Corrija los errores anteriores.
+                        Corrija os erros acima.
                       </Alert>
                     )}
                   </>
@@ -420,7 +420,7 @@ export default function LoginPage() {
                     },
                   }}
                 >
-                  {isLoading ? 'Iniciando sesión...' : 'Ingresar (ENTER)'}
+                  {isLoading ? 'Iniciando sessão...' : 'Entrar (ENTER)'}
                 </Button>
               </Stack>
             </Box>
@@ -429,7 +429,7 @@ export default function LoginPage() {
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                Credenciales de ejemplo:
+                Credenciais de exemplo:
               </Typography>
               <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
                   <Typography variant="caption" sx={{ 
@@ -448,7 +448,7 @@ export default function LoginPage() {
                     py: 0.5,
                     borderRadius: 1,
                   }}>
-                    Usuario back-office: USER001 / PASSWORD
+                    Usuário back-office: USER001 / PASSWORD
                   </Typography>
               </Stack>
             </Box>
@@ -463,7 +463,7 @@ export default function LoginPage() {
             }}
           >
             <Typography variant="body2" color="text.secondary">
-              ENTER = Ingresar • F3 = Salir
+              ENTER = Entrar • F3 = Sair
             </Typography>
           </Box>
         </Paper>
