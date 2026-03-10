@@ -38,51 +38,51 @@ import {
 import type { LoginCredentials } from '~/types';
 
 const LOGIN_COPY = {
-  systemHeaderTitle: 'CardDemo - Aplicación de demostración',
-  systemHeaderSubtitle: 'Modernización de mainframe',
-  heroTitle: 'NOTA DE RESERVA NACIONAL',
-  heroSubtitle: 'REPÚBLICA DE KICSLAND',
+  systemHeaderTitle: 'CardDemo - Demo Application',
+  systemHeaderSubtitle: 'Mainframe Modernization',
+  heroTitle: 'NATIONAL RESERVE NOTE',
+  heroSubtitle: 'REPUBLIC OF KICSLAND',
   heroNote: `+========================================+
-|%%%%%%%  NOTA DE RESERVA NACIONAL  %%%%%%%|
-|%(1)  REPÚBLICA DE KICSLAND (1)%|
+|%%%%%%%  NATIONAL RESERVE NOTE  %%%%%%%|
+|%(1)  REPUBLIC OF KICSLAND (1)%|
 |%$$              ___       ********  $$%|
 |%$    {x}       (o o)                 $%|
-|%$     ******  (  V  )      UN REAL     $%|
+|%$     ******  (  V  )      ONE REAL     $%|
 |%(1)          ---m-m---             (1)%|
-|%%~~~~~~~~~~~ UN REAL ~~~~~~~~~~~~~~~%%|
+|%%~~~~~~~~~~~ ONE REAL ~~~~~~~~~~~~~~~%%|
 +========================================+`,
-  intro: 'Ingresa tus credenciales y presiona ENTER para continuar.',
+  intro: 'Enter your credentials and press ENTER to continue.',
   fieldLabels: {
-    userId: 'ID de usuario',
-    password: 'Contraseña',
+    userId: 'User ID',
+    password: 'Password',
   },
-  helperMaxChars: 'MÁX 8 caracteres',
+  helperMaxChars: 'MAX 8 characters',
   button: {
-    default: 'Iniciar sesión (ENTER)',
-    loading: 'Iniciando sesión...',
+    default: 'Sign in (ENTER)',
+    loading: 'Signing in...',
   },
   validation: {
-    userIdRequired: 'Por favor ingresa tu ID de usuario.',
-    userIdTooLong: 'El ID de usuario debe tener como máximo 8 caracteres.',
-    passwordRequired: 'Por favor ingresa tu contraseña.',
-    passwordTooLong: 'La contraseña debe tener como máximo 8 caracteres.',
-    fallback: 'Corrige los errores anteriores.',
+    userIdRequired: 'Please enter your user ID.',
+    userIdTooLong: 'User ID must be 8 characters or fewer.',
+    passwordRequired: 'Please enter your password.',
+    passwordTooLong: 'Password must be 8 characters or fewer.',
+    fallback: 'Please correct the errors above.',
   },
   errorMessages: {
-    invalidCredentials: 'Credenciales inválidas. Intenta nuevamente.',
-    userNotFound: 'Usuario no encontrado. Verifica tu ID.',
-    inputCheck: 'Revisa tu ID de usuario y contraseña.',
-    network: 'Ocurrió un error de red. Verifica tu conexión.',
-    fallback: 'Ocurrió un error durante la autenticación. Intenta otra vez.',
+    invalidCredentials: 'Invalid credentials. Please try again.',
+    userNotFound: 'User not found. Check your ID.',
+    inputCheck: 'Please review your user ID and password.',
+    network: 'A network error occurred. Check your connection.',
+    fallback: 'An error occurred during authentication. Please try again.',
   },
-  docTooltip: 'Abrir documentación',
-  sampleLabel: 'Credenciales de ejemplo:',
-  sampleAdmin: 'Administrador: ADMIN001 / CONTRASEÑA',
-  sampleBackOffice: 'Usuario back-office: USER001 / CONTRASEÑA',
-  shortcuts: 'ENTER = Iniciar sesión • F3 = Salir',
-  redirectTitle: 'Redirigiendo...',
-  redirectBody: 'Ya estás autenticado. Redirigiendo al menú principal.',
-  exitConfirmation: '¿Estás seguro de que deseas salir del sistema?',
+  docTooltip: 'Open documentation',
+  sampleLabel: 'Sample credentials:',
+  sampleAdmin: 'Admin: ADMIN001 / PASSWORD',
+  sampleBackOffice: 'Back-office user: USER001 / PASSWORD',
+  shortcuts: 'ENTER = Sign in • F3 = Exit',
+  redirectTitle: 'Redirecting...',
+  redirectBody: 'You are already authenticated. Redirecting to the main menu.',
+  exitConfirmation: 'Are you sure you want to exit the system?',
 } as const;
 
 export default function LoginPage() {
