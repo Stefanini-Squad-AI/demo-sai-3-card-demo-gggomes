@@ -23,8 +23,8 @@ export default defineConfig(({ mode }) => {
         }
       }
     ],
-    // ✅ Base diferente según el entorno
-    base: isDevelopment ? "/" : "/demo-sai-3-card-demo-gggomes/",
+    // VITE_BASE_PATH env var overrides the default (used for Surge PR previews)
+    base: process.env.VITE_BASE_PATH ?? (isDevelopment ? "/" : "/demo-sai-3-card-demo-gggomes/"),
     resolve: {
       alias: {
         "~": resolve(__dirname, "./app"),
